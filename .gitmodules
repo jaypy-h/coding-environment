@@ -1,3 +1,9 @@
 [submodule "python/cpu/projects/test-submodule"]
 	path = python/cpu/projects/test-submodule
 	url = https://github.com/jaypy-h/coding-environment-submodule.git
+[submodule "python/cpu/python/cuda/projects/test-submodule"]
+	path = python/cpu/python/cuda/projects/test-submodule
+	url = https://github.com/jaypy-h/coding-environment-submodule.git
+[submodule "python/cuda/projects/test-submodule"]
+	path = python/cuda/projects/test-submodule
+	url = https://github.com/jaypy-h/coding-environment-submodule.git
