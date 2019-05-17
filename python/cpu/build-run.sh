@@ -1,7 +1,12 @@
 #!/bin/bash
 
 export PROJECTS="projects"
-cd $PROJECTS
+if [ -d $PROJECTS ]
+then
+    cd $PROJECTS
+else
+    mkdir $PROJECTS && cd $PROJECTS
+fi
 
 # Add repeatedly git repo =====================
 
