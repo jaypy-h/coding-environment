@@ -10,9 +10,11 @@ USER $USER
 COPY ./projects/ $HOME/projects/
 RUN sudo chown -R "${USER}":"${USER}" $HOME/projects/
 
-RUN cd $HOME/projects/test-submodule \
+# Add repeatedly git repo =====================
+RUN cd $HOME/projects/coding-environment-test \
  && pipenv install --dev --deploy --ignore-pipfile \
- && pipenv run python -m ipykernel install --user --name=test-submodule 
+ && pipenv run python -m ipykernel install --user --name=env-test
+#==============================================
 
 EXPOSE 8080
 WORKDIR $HOME 
