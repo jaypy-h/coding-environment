@@ -15,6 +15,8 @@ Coding environment with docker
 Modify `Dockerfile` and `buil-run.sh` when including git repo in image `coding-python-env`.
   * `./python/cpu/Dockerfile`
   * `./python/cpu/build-run.sh`
-**or**
+
+**OR**
+
   * `./python/cuda/Dockerfile`
   * `./python/cuda/build-run.sh`
