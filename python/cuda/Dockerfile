@@ -78,20 +78,17 @@ RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -
  && git clone https://github.com/bhilburn/powerlevel9k.git $HOME/.oh-my-zsh/custom/themes/powerlevel9k \
  && sed -i "s/ZSH_THEME="'"'"robbyrussell"'"'"/ZSH_THEME="'"'"${ZSH_THEME}"'"'"/" $HOME/.zshrc \
  && sed -i 's/plugins=(git)/plugins=(git sudo autojump zsh-autosuggestions zsh-syntax-highlighting ssh-agent)\nzstyle :omz:plugins:ssh-agent agent-forwarding on/' $HOME/.zshrc \
-# && echo "zstyle :omz:plugins:ssh-agent agent-forwarding on" >> $HOME/.zshrc \
  && echo "export SSH_KEY_PATH=\"~/.ssh/rsa_id\"" >> $HOME/.zshrc \
  && echo "export TERM=\"${TERM}\"" >> $HOME/.zshrc \
  && echo "export EDITOR=\"${EDITOR}\"" >> $HOME/.zshrc \
  && echo "export POWERLEVEL9K_PYTHON_ICON='\U1F40D'" >> $HOME/.zshrc \
  && echo "bindkey -v" >> $HOME/.zshrc \
  && echo "export KEYTIMEOUT=1" >> $HOME/.zshrc \
- && echo "source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> $HOME/.zshrc \
  && echo "POWERLEVEL9K_MODE='nerdfont-complete'" >> $HOME/.zshrc \
  && echo "POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(vi_mode virtualenv context dir vcs)" >> $HOME/.zshrc \
  && echo "POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs history)" >> $HOME/.zshrc \
  && echo "POWERLEVEL9K_PROMPT_ON_NEWLINE=true" >> $HOME/.zshrc \
  && export JUPYTER_PASSWORD=$(python -c "from notebook.auth import passwd; print(passwd('${PASSWORD}'))") \
-# && echo $JUPYTER_PASSWORD \
  && jupyter notebook --generate-config \
  && echo "c = get_config()" >> $HOME/.jupyter/jupyter_notebook_config.py \
  && echo "c.NotebookApp.allow_origin = '*'" >> $HOME/.jupyter/jupyter_notebook_config.py \
