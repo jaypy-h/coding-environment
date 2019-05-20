@@ -38,7 +38,7 @@ docker build \
 #==============================================
 # Docker Run ==================================
 #==============================================
-export JUPYTER_PORT=8080
+export JUPYTER_PORT="${JUPYTER_PORT:-8080}"
 
 if [ -e $SSH_KEY_PATH ]
 then
