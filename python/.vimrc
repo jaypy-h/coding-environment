@@ -26,8 +26,8 @@ Plugin 'kien/ctrlp.vim'                                         " Super Searchin
 Plugin 'tpope/vim-fugitive'                                     " Git Integration
 Plugin 'airblade/vim-gitgutter'                                 "
 "Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'} " Powerline
-Plugin 'vim-airline/vim-airline'                                "
-Plugin 'vim-airline/vim-airline-themes'                         "
+Plugin 'vim-airline/vim-airline'                                " Status bar (powerline)
+Plugin 'vim-airline/vim-airline-themes'                         " Status bar theme (powerline)
 Plugin 'jeetsukumaran/vim-buffergator'                          " Select and switch between buffers
 
 " add all your plugins here (note older versions of Vundle
