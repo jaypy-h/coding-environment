@@ -10,12 +10,12 @@ Coding environment with docker
     * `$AWS_SECRET_ACCESS_KEY`
     * `$AWS_DEFAULT_REGION`
   * ssh
-    * `$SSH_KEY_PATH`
+    * `$SSH_KEY_PATH` **caution: pull path**
 
 ## Images
-* `coding-python-cpu:latest`  : Setting pipenv and git repo (CPU Ver.)
+* `coding-python-cpu:latest`  : Setting zsh, vim, tmux and python(CPU Ver.)
   * `./python/cpu/build-run.sh`
-* `coding-python-cuda:latest` : Setting pipenv and git repo (CUDA Ver.)
+* `coding-python-cuda:latest` : Setting zsh, vim, tmux and python(CUDA Ver.)
   * `./python/cuda/build-run.sh`
 
 ## Caution
@@ -37,10 +37,10 @@ Modify `Dockerfile` and `buil-run.sh` when including git repo in image.
 * `:sp <filename>` # vertical split
 * `:vs <filename>` # horizontal split
 * Key combos
-	* `^Ctrl + J` # move to the split below
-	* `^Ctrl + K` # move to the split above
-	* `^Ctrl + L` # move to the split to the right
-	* `^Ctrl + H` # move to the split to the left
+	* `[CTRL] + J` # move to the split below
+	* `[CTRL] + K` # move to the split above
+	* `[CTRL] + L` # move to the split to the right
+	* `[CTRL] + H` # move to the split to the left
 
 ## Buffers
 * `:ls` # list all buffers
@@ -57,12 +57,11 @@ Modify `Dockerfile` and `buil-run.sh` when including git repo in image.
 ## Auto-Complete
 #### [YouCompleteMe](https://github.com/Valloric/YouCompleteMe)
 * `<leader> + g` # GoTo
-* `<leader> + i` # GoToImprecise
-* `<leader> + d` # GoToDefinitionElseDeclaration
+* `<leader> + d` # GoToDeclaration
 * `<leader> + t` # GetType
 * `<leader> + p` # GetParent
-* `^Ctrl + O` # jump before postion
-* `^Ctrl + I` # jump after postion
+* `[CTRL] + O` # jump before postion
+* `[CTRL] + I` # jump after postion
 
 ## Syntax Checking/Highlighting
 #### [syntastic](https://github.com/vim-syntastic/syntastic) *# Check Syntax*
@@ -73,7 +72,7 @@ Modify `Dockerfile` and `buil-run.sh` when including git repo in image.
 #### [Zenburn](https://github.com/jnurmine/Zenburn)
 #### [molokai](https://github.com/tomasr/molokai)
 #### [jellybeans.vim](https://github.com/nanotech/jellybeans.vim)
-* `F5` # change between dark and light theme
+* `[F5]` # change between dark and light theme
 
 ## File Browsing
 #### [NERDTree](https://github.com/scrooloose/nerdtree)
@@ -81,13 +80,24 @@ Modify `Dockerfile` and `buil-run.sh` when including git repo in image.
 * `<leader> + nt`  # NERDTree
 * `<leader> + ntt` # NERDTreeToggle
 
-## Super Searching
-#### [ctrlp](https://github.com/kien/ctrlp.vim)
-* `^Ctrl + P` # enable search
-
 ## Python
-* `F2` # Execute Source with python
+* `[F2]` # Execute Source with python
+
+## Ctrlp
+#### [ctrlp](https://github.com/kien/ctrlp.vim)
+* `[CTRL] + P` or `<leader> + p` # enable search
+* `<leader> + bb` # CtrlPBuffer
+* `<leader> + bm` # CtrlPMixed
+* `<leader> + bs` # CtrlPMRU
+
+## Buffergator
+#### [Buffergator](https://github.com/jeetsukumaran/vim-buffergator)
+* `<leader> + h`  : go previous buffer
+* `<leader> + l`  : gonext buffer
+* `<leader> + bl` : show all buffer list
+* `<leader> + T`  : create new buffer
+* `<leader> + bq` : close buffer
 
 ## Reference
 * [VIM and Python – A Match Made in Heaven](https://realpython.com/vim-and-python-a-match-made-in-heaven/#virtualenv-support)
-
+* [Vim Tab Madness. Buffers vs Tabs](https://joshldavis.com/2014/04/05/vim-tab-madness-buffers-vs-tabs/)

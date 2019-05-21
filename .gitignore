@@ -1,2 +1,6 @@
 python/cpu/projects/
 python/cuda/projects/
+python/cpu/build-run.sh
+python/cpu/Dockerfile
+python/cuda/build-run.sh
+python/cuda/Dockerfile
