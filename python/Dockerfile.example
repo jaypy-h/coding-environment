@@ -1,5 +1,3 @@
-FROM ubuntu:18.04
-
 ENV DEBIAN_FRONTEND noninteractive
 
 ARG USER
@@ -45,17 +43,25 @@ RUN apt-get update \
  && curl -sk https://bootstrap.pypa.io/get-pip.py | python \
  && pip install --upgrade pip \
  && apt-get clean \
- && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
+ && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+ && ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
 
-RUN pip install jupyter
+RUN pip install jupyter \
+ && pip install git+git://github.com/Lokaltog/powerline \
+ && wget -O /tmp/PowerlineSymbols.otf https://github.com/Lokaltog/powerline/raw/develop/font/PowerlineSymbols.otf \
+ && wget -O /tmp/10-powerline-symbols.conf https://github.com/Lokaltog/powerline/raw/develop/font/10-powerline-symbols.conf \
+ && mv /tmp/PowerlineSymbols.otf /usr/share/fonts/ \
+ && fc-cache -vf \
+ && mv /tmp/10-powerline-symbols.conf /etc/fonts/conf.d/
 
 # add a user (--disabled-password: the user won't be able to use the account until the password is set)
-RUN adduser --quiet --disabled-password --shell /bin/zsh --home $HOME --gecos "User" $USER \
+RUN adduser --home $HOME --shell /bin/zsh --gecos "Python User" --disabled-password --quiet $USER \
  && echo "${USER}:${PASSWORD}" | chpasswd \
  && usermod -aG sudo $USER \
  && echo "${USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-ADD .vimrc $HOME/.vimrc
+COPY .vimrc $HOME/.vimrc
+COPY .tmux.conf $HOME/.tmux.conf
 RUN chown -R $USER:$USER $HOME
 USER $USER
 
@@ -75,16 +81,20 @@ RUN sed -i "s/\"colorscheme colorscheme/colorscheme ${VIM_COLOR_SCHEME}/" $HOME/
 RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true \
  && git clone https://github.com/zsh-users/zsh-autosuggestions $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions \
  && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting \
+ && git clone https://github.com/zsh-users/zsh-completions ~/.oh-my-zsh/custom/plugins/zsh-completions \
  && git clone https://github.com/bhilburn/powerlevel9k.git $HOME/.oh-my-zsh/custom/themes/powerlevel9k \
  && sed -i "s/ZSH_THEME="'"'"robbyrussell"'"'"/ZSH_THEME="'"'"${ZSH_THEME}"'"'"/" $HOME/.zshrc \
- && sed -i 's/plugins=(git)/plugins=(git sudo autojump zsh-autosuggestions zsh-syntax-highlighting ssh-agent)\nzstyle :omz:plugins:ssh-agent agent-forwarding on/' $HOME/.zshrc \
- && echo "export SSH_KEY_PATH=\"~/.ssh/rsa_id\"" >> $HOME/.zshrc \
+# && sed -i 's/plugins=(git)/plugins=(git sudo history taskwarrior tmux tmuxinator ssh-agent autojump zsh-autosuggestions zsh-syntax-highlighting zsh-completions)\nzstyle :omz:plugins:ssh-agent agent-forwarding on\nautoload -U compinit \&\& compinit/' $HOME/.zshrc \
+ && sed -i 's/plugins=(git)/plugins=(git sudo tmux ssh-agent autojump zsh-autosuggestions zsh-syntax-highlighting zsh-completions)\nzstyle :omz:plugins:ssh-agent agent-forwarding on\nautoload -U compinit \&\& compinit/' $HOME/.zshrc \
+ && echo "export SSH_KEY_PATH=\"${HOME}/.ssh/rsa_id\"" >> $HOME/.zshrc \
  && echo "export TERM=\"${TERM}\"" >> $HOME/.zshrc \
  && echo "export EDITOR=\"${EDITOR}\"" >> $HOME/.zshrc \
+ && echo "export ZSH_TMUX_AUTOSTART='true'" >> $HOME/.zshrc \
  && echo "export POWERLEVEL9K_PYTHON_ICON='\U1F40D'" >> $HOME/.zshrc \
  && echo "bindkey -v" >> $HOME/.zshrc \
  && echo "export KEYTIMEOUT=1" >> $HOME/.zshrc \
- && echo "POWERLEVEL9K_MODE='nerdfont-complete'" >> $HOME/.zshrc \
+# && echo "POWERLEVEL9K_MODE='nerdfont-complete'" >> $HOME/.zshrc \
+ && echo "POWERLEVEL9K_MODE='awesome-patched'" >> $HOME/.zshrc \
  && echo "POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(vi_mode virtualenv context dir vcs)" >> $HOME/.zshrc \
  && echo "POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs history)" >> $HOME/.zshrc \
  && echo "POWERLEVEL9K_PROMPT_ON_NEWLINE=true" >> $HOME/.zshrc \

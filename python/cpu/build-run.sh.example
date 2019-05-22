@@ -1,13 +1,24 @@
 #!/bin/bash
 
 #==============================================
-# Copy .vimrc =================================
+# Copy Config Files
 #==============================================
-cp ../.vimrc ./
+cp ../.vimrc ../.tmux.conf ./
+#cp ../.tmux.conf ./
+if [ -e "../Dockerfile" ]
+then
+DOCKERFILE=$(echo "FROM ubuntu:18.04" && cat ../Dockerfile)
+echo "Use Dockerfile"
+else
+DOCKERFILE=$(echo "FROM ubuntu:18.04" && cat ../Dockerfile.example)
+echo "Use Dockerfile.example"
+fi
+echo "$DOCKERFILE" > ./Dockerfile
 
 #==============================================
-# Build Docker ================================
+# Build Docker
 #==============================================
+echo "Build Docker"
 export TAG="latest"
 export DOCKER_USER="${DOCKER_USER:-ubuntu}"
 export DOCKER_PASSWORD="${DOCKER_PASSWORD:-${DOCKER_USER}1234}"
@@ -41,9 +52,9 @@ docker build \
     .
 
 #==============================================
-# Delete .vimrc ===============================
+# Delete Config Files
 #==============================================
-rm .vimrc
+rm .vimrc .tmux.conf Dockerfile
 
 #==============================================
 # Run Docker ==================================

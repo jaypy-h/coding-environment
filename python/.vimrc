@@ -206,7 +206,7 @@ let g:airline#extensions#tabline#enabled = 1     " Enable the list of buffers
 let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
 let g:airline#extensions#tagbar#enabled = 1
 let g:airline_skip_empty_sections = 1
-set laststatus=2                                 " Print status line(with vim-airline)
+set laststatus=2                                 " Always show statusline(with vim-airline)
 
 " ======================================
 " ctrlp
