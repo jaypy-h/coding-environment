@@ -1,19 +1,23 @@
 ENV DEBIAN_FRONTEND noninteractive
 
 ARG USER
+ARG UID
 ARG PASSWORD
 ARG HOME
 
-ENV USER ${USER:-"ubuntu"}
-ENV PASSWORD ${PASSWORD:-"${USER}1234"}
-ENV HOME ${HOME:-"/${USER}"}
+ENV USER "${USER:-ubuntu}"
+ENV UID "${UID:-1000}"
+ENV PASSWORD "${PASSWORD:-${USER}1234}"
+ENV HOME "${HOME:-/${USER}}"
+ENV VIM_COLOR_SCHEME "${VIM_COLOR_SCHEME:-solarized}"
+ENV ZSH_THEME "powerlevel9k\/powerlevel9k"
+ENV TERM "xterm-256color"
+ENV EDITOR "vim"
+ENV GIT_USER_NAME ""
+ENV GIT_USER_EMAIL ""
 ENV AWS_ACCESS_KEY_ID ""
 ENV AWS_SECRET_ACCESS_KEY ""
 ENV AWS_DEFAULT_REGION ""
-ENV ZSH_THEME ${ZSH_THEME:-"powerlevel9k\/powerlevel9k"}
-ENV VIM_COLOR_SCHEME ${VIM_COLOR_SCHEME:-"solarized"}
-ENV TERM xterm-256color
-ENV EDITOR vim
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -38,6 +42,8 @@ RUN apt-get update \
     tmux \
     imagemagick \
     unzip \
+    nodejs \
+    npm \
  && update-alternatives --install /usr/bin/python python /usr/bin/python3 1 \
  && update-alternatives --config python \
  && curl -sk https://bootstrap.pypa.io/get-pip.py | python \
@@ -46,7 +52,9 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
  && ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
 
-RUN pip install jupyter \
+#RUN npm install -g livedown \
+RUN npm install -g git+https://github.com/hcgatewood/livedown \
+ && pip install jupyter \
  && pip install git+git://github.com/Lokaltog/powerline \
  && wget -O /tmp/PowerlineSymbols.otf https://github.com/Lokaltog/powerline/raw/develop/font/PowerlineSymbols.otf \
  && wget -O /tmp/10-powerline-symbols.conf https://github.com/Lokaltog/powerline/raw/develop/font/10-powerline-symbols.conf \
@@ -55,7 +63,7 @@ RUN pip install jupyter \
  && mv /tmp/10-powerline-symbols.conf /etc/fonts/conf.d/
 
 # add a user (--disabled-password: the user won't be able to use the account until the password is set)
-RUN adduser --home $HOME --shell /bin/zsh --gecos "Python User" --disabled-password --quiet $USER \
+RUN adduser --home $HOME --shell /bin/zsh --uid $UID --gecos "Python User" --disabled-password --quiet $USER \
  && echo "${USER}:${PASSWORD}" | chpasswd \
  && usermod -aG sudo $USER \
  && echo "${USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
@@ -124,9 +132,6 @@ RUN git clone https://github.com/yyuu/pyenv.git $HOME/.pyenv \
 RUN pip install pipenv --user \
  && pip install awscli --user 
 
-ENV GIT_USER_NAME ""
-ENV GIT_USER_EMAIL ""
-
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
 
@@ -144,7 +149,11 @@ RUN cd $HOME/projects/coding-environment-test \
 RUN git config --global user.name "\"${GIT_USER_NAME}\"" \
  && git config --global user.email "${GIT_USER_EMAIL}"
 
-EXPOSE 8080
+#RUN sudo rm /usr/local/lib/node_modules/livedown/index.html
+#COPY ./livedown_mathjax.html /usr/local/lib/node_modules/livedown/index.html
+#RUN sudo chown nobody:${USER} /usr/local/lib/node_modules/livedown/index.html
+
+EXPOSE 8080 1337
 
 WORKDIR $HOME 
 

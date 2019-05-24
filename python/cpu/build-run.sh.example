@@ -1,16 +1,41 @@
 #!/bin/bash
 
+export CURRENT_PATH="$(pwd)"
+echo "Build Current Directory: $CURRENT_PATH"
+
+#==============================================
+# Copy Pipfile and Pipfile.lock of git repo that use
+#==============================================
+export REPO_PATH="~/Projects"
+export REPO_PATH=$(eval "realpath $REPO_PATH")
+export PIP_FILE_PATH="$(pwd)/pipenv"
+
+cd $REPO_PATH
+for file in $(find . -name "Pipfile*" -not -path "./coding-environment*" -type f -exec ls {} \;)
+do
+    SOURCE_FILE="$REPO_PATH${file:1}"
+    TARGET_FILE="$PIP_FILE_PATH${file:1}"
+    TARGET_DIR=$(dirname $TARGET_FILE)
+    if [ ! -d $TARGET_DIR ]
+    then
+        mkdir -p $TARGET_DIR
+    fi
+    cp -fr $SOURCE_FILE $TARGET_FILE
+done
+
+cd $CURRENT_PATH
+
 #==============================================
 # Copy Config Files
 #==============================================
-cp ../.vimrc ../.tmux.conf ./
-#cp ../.tmux.conf ./
+cp ../.vimrc ../.tmux.conf ../livedown_mathjax.html ./
+
 if [ -e "../Dockerfile" ]
 then
-DOCKERFILE=$(echo "FROM ubuntu:18.04" && cat ../Dockerfile)
+  DOCKERFILE=$(echo "FROM ubuntu:18.04" && cat ../Dockerfile)
 echo "Use Dockerfile"
 else
-DOCKERFILE=$(echo "FROM ubuntu:18.04" && cat ../Dockerfile.example)
+  DOCKERFILE=$(echo "FROM ubuntu:18.04" && cat ../Dockerfile.example)
 echo "Use Dockerfile.example"
 fi
 echo "$DOCKERFILE" > ./Dockerfile
@@ -21,8 +46,12 @@ echo "$DOCKERFILE" > ./Dockerfile
 echo "Build Docker"
 export TAG="latest"
 export DOCKER_USER="${DOCKER_USER:-ubuntu}"
+export DOCKER_UID=$(id -u)
 export DOCKER_PASSWORD="${DOCKER_PASSWORD:-${DOCKER_USER}1234}"
 export DOCKER_HOME="${DOCKER_HOME:-/${DOCKER_USER}}"
+
+echo "Docker User INFO"
+echo "User name: " $DOCKER_USER ", Uid: " $DOCKER_UID ", Home: " $DOCKER_HOME ", Password: " $DOCKER_PASSWORD
 
 # Check projects directory
 export PROJECTS="projects"
@@ -46,6 +75,7 @@ fi
 
 docker build \
     --build-arg USER="${DOCKER_USER}" \
+    --build-arg UID="${DOCKER_UID}" \
     --build-arg PASSWORD="${DOCKER_PASSWORD}" \
     --build-arg HOME="${DOCKER_HOME}" \
     -t coding-python-cpu:"${TAG}" \
@@ -54,12 +84,14 @@ docker build \
 #==============================================
 # Delete Config Files
 #==============================================
-rm .vimrc .tmux.conf Dockerfile
+rm .vimrc .tmux.conf livedown_mathjax.html Dockerfile
+rm -fr $PIP_FILE_PATH
 
 #==============================================
-# Run Docker ==================================
+# Run Docker
 #==============================================
 export JUPYTER_PORT="${JUPYTER_PORT:-8080}"
+export MARKDOWN_PORT="${MARKDOWN_PORT:-1337}"
 
 if [ -e $SSH_KEY_PATH ]
 then
@@ -67,6 +99,7 @@ then
         -h python-cpu \
         -v "${SSH_KEY_PATH}":"${DOCKER_HOME}/.ssh/id_rsa" \
         -p "${JUPYTER_PORT}":8080 \
+        -p "${MARKDOWN_PORT}":1337 \
         -e GIT_USER_NAME="${GIT_USER_NAME:-""}" \
         -e GIT_USER_EMAIL="${GIT_USER_EMAIL:-""}" \
         -e AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID:-""}" \

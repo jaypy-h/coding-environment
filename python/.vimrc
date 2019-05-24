@@ -29,6 +29,7 @@ Plugin 'airblade/vim-gitgutter'                                 "
 Plugin 'vim-airline/vim-airline'                                " Status bar (powerline)
 Plugin 'vim-airline/vim-airline-themes'                         " Status bar theme (powerline)
 Plugin 'jeetsukumaran/vim-buffergator'                          " Select and switch between buffers
+Plugin 'shime/vim-livedown'                                     " Markdown
 
 " add all your plugins here (note older versions of Vundle
 " used Bundle instead of Plugin)
@@ -78,9 +79,9 @@ let g:SimpylFold_docstring_preview=1
 
 if has("autocmd")
     " ======================================
-    " Python Indentation
+    " python indentation
     " ======================================
-    autocmd BufNewFile,BufRead *.py
+    autocmd bufnewfile,bufread *.py
         \ set tabstop=4     |
         \ set softtabstop=4 |
         \ set shiftwidth=4  |
@@ -90,9 +91,9 @@ if has("autocmd")
         \ set fileformat=unix
 
     " ======================================
-    " Markdown Indentation
+    " markdown indentation
     " ======================================
-    autocmd BufNewFile,BufRead *.
+    autocmd bufnewfile,bufread *.md
         \ set tabstop=4     |
         \ set softtabstop=4 |
         \ set shiftwidth=4  |
@@ -102,19 +103,19 @@ if has("autocmd")
         \ set fileformat=unix
 
     " ======================================
-    " JavaScript, HTML and CSS Indentation
+    " javascript, html and css indentation
     " ======================================
-    autocmd BufNewFile,BufRead *.js, *.html, *.css
+    autocmd bufnewfile,bufread *.js, *.html, *.css
         \ set tabstop=2     |
         \ set softtabstop=2 |
         \ set shiftwidth=2
 
-    " Python Config
-    autocmd BufNewFile,BufRead *.py setfiletype python
-    autocmd FileType python nmap <F2> <ESC>:wa!<cr>:!python %<cr>
+    " python config
+    autocmd bufnewfile,bufread *.py setfiletype python
+    autocmd filetype python nmap <f2> <esc>:wa!<cr>:!python %<cr>
 
-    " Set last cursor position
-    autocmd BufReadPost *
+    " set last cursor position
+    autocmd bufreadpost *
         \ if line("'\"") > 1 && line("'\"") <= line("$") |
         \     exe "normal! g`\"" |
         \ endif
@@ -249,3 +250,20 @@ nnoremap <leader>bl <esc>:BuffergatorOpen<cr>
 nnoremap <leader>T  <esc>:enew<cr>                     " Create new buffer
 nnoremap <leader>bq <esc>:bp <BAR> bd #<cr>            " Close buffer
 
+" ======================================
+" Livedown
+" ======================================
+" should markdown preview get shown automatically upon opening markdown buffer
+let g:livedown_autorun = 0
+" should the browser window pop-up upon previewing
+let g:livedown_open = 1
+" the port on which Livedown server will run
+let g:livedown_port = 1337
+" the browser to use, can also be firefox, chrome or other, depending on your executable
+let g:livedown_browser = ""
+" launch the Livedown server and preview your markdown file
+nnoremap <leader>mds <esc>:LivedownPreview<cr>
+" stop the Livedown server
+nnoremap <leader>mdk <esc>:LivedownKill<cr>
+" launch/kill the Livedown server
+nnoremap <leader>mdt <esc>:LivedownToggle<cr>

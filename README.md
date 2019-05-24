@@ -2,31 +2,31 @@
 Coding environment with docker
 
 ## Variables
-  * git
+* git
     * `$GIT_USER_NAME`
     * `$GIT_USER_EMAIL`
-  * aws
+* aws
     * `$AWS_ACCESS_KEY_ID`
     * `$AWS_SECRET_ACCESS_KEY`
     * `$AWS_DEFAULT_REGION`
-  * ssh
+* ssh
     * `$SSH_KEY_PATH` **caution: pull path**
 
 ## Images
 * `coding-python-cpu:latest`  : Setting zsh, vim, tmux and python(CPU Ver.)
-  * `./python/cpu/build-run.sh`
+    * `./python/cpu/build-run.sh`
 * `coding-python-cuda:latest` : Setting zsh, vim, tmux and python(CUDA Ver.)
-  * `./python/cuda/build-run.sh`
+    * `./python/cuda/build-run.sh`
 
 ## Caution
 Modify `Dockerfile` and `buil-run.sh` when including git repo in image.
-  * `./python/cpu/Dockerfile`
-  * `./python/cpu/build-run.sh`
+* `./python/cpu/Dockerfile`
+* `./python/cpu/build-run.sh`
 
 **OR**
 
-  * `./python/cuda/Dockerfile`
-  * `./python/cuda/build-run.sh`
+* `./python/cuda/Dockerfile`
+* `./python/cuda/build-run.sh`
 
 # Vim
 
@@ -37,10 +37,10 @@ Modify `Dockerfile` and `buil-run.sh` when including git repo in image.
 * `:sp <filename>` # vertical split
 * `:vs <filename>` # horizontal split
 * Key combos
-	* `[CTRL] + J` # move to the split below
-	* `[CTRL] + K` # move to the split above
-	* `[CTRL] + L` # move to the split to the right
-	* `[CTRL] + H` # move to the split to the left
+    * `[CTRL] + J` # move to the split below
+    * `[CTRL] + K` # move to the split above
+    * `[CTRL] + L` # move to the split to the right
+    * `[CTRL] + H` # move to the split to the left
 
 ## Buffers
 * `:ls` # list all buffers
@@ -97,6 +97,12 @@ Modify `Dockerfile` and `buil-run.sh` when including git repo in image.
 * `<leader> + bl` : show all buffer list
 * `<leader> + T`  : create new buffer
 * `<leader> + bq` : close buffer
+
+## Livemark
+#### [Livedown](https://github.com/shime/vim-livedown)
+* `<leader> + mds` : launch the Livedown server and preview your markdown file
+* `<leader> + mdk` : stop the Livedown server
+* `<leader> + mdt` : launch/kill the Livedown server
 
 ## Reference
 * [VIM and Python – A Match Made in Heaven](https://realpython.com/vim-and-python-a-match-made-in-heaven/#virtualenv-support)
