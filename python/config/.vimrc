@@ -183,7 +183,7 @@ endif
 " ======================================
 " File Browsing
 " ======================================
-let NERDTreeIgnore=['\.pyc$', '\~$']         " Ignore files in NERDTree
+let NERDTreeIgnore=['\.pyc$', '\~$']             " Ignore files in NERDTree
 nnoremap <leader>nt  <esc>:NERDTree<cr>
 nnoremap <leader>ntt <esc>:NERDTreeToggle<cr>
 
@@ -195,7 +195,7 @@ set number
 " ======================================
 " System Clipboard
 " ======================================
-set clipboard=unnamed
+set clipboard=unnamed                            " use OS clipboard
 
 " ======================================
 " vim-airline
