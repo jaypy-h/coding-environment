@@ -52,6 +52,13 @@ set hlsearch                   " Emphasize search keyword
 set smartcase                  " Case sensitive search
 "set ignorecase                 " Case insensitive search
 
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+set smartindent
+set autoindent
+
 " ======================================
 " Split Layouts
 " ======================================
@@ -120,6 +127,11 @@ if has("autocmd")
         \     exe "normal! g`\"" |
         \ endif
 endif
+
+" ======================================
+" Show ALL white spaces as a character
+" ======================================
+nnoremap <F3> :<C-U>setlocal lcs=eol:⏎,tab:↹.,trail:␠,nbsp:⎵  list! list? <CR>
  
 " ======================================
 " Flagging Unnecessary Whitespace
