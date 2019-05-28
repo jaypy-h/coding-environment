@@ -1,17 +1,4 @@
-python/cpu/projects/
-python/cuda/projects/
-python/cpu/pipenv/
-python/cuda/pipenv/
-python/cpu/repo_list.txt
-python/cuda/repo_list.txt
-python/cpu/build-run.sh
-python/cuda/build-run.sh
-python/cpu/Dockerfile
-python/cuda/Dockerfile
-
-
 python/projects/
 python/pipenv/
 python/repo_list.txt
-python/build-run.sh
 python/Dockerfile
